@@ -1,0 +1,32 @@
+----------------------------------Apache Kafka-------------------------------------------------
+#Download Kafka
+https://www.apache.org/dyn/closer.cgi?path=/kafka/2.5.0/kafka_2.12-2.5.0.tgz
+
+# start zookeeper 
+
+zookeeper-server-start.bat D:\tools\kafka_2.12-2.5.0\config\zookeeper.properties 
+
+# start kafka
+
+kafka-server-start.bat D:\tools\kafka_2.12-2.5.0\config\server.properties
+
+# Kafka Consumer
+
+kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic nineleaps
+
+--create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 -topic nineleaps
+
+--------------------------------------------------------------------------------------------------
+
+
+------------------------------------------------Cassandra Basics----------------------------------
+
+
+
+---------------------------------------------------------------------------------------------------
+
+Learning cassandra and kafka.
+Poc services basic implementation is done.
+
+
+
