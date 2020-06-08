@@ -7,7 +7,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableFeignClients("com.ninelepas.supplier.service.talk.to")
+@EnableFeignClients("com.nineleaps.supplier.service.talk.to")
 public class SupplierApplication {
 
 	public static void main(String[] args) {

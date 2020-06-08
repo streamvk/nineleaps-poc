@@ -17,7 +17,7 @@ import com.nineleaps.supplier.model.Order;
 import com.nineleaps.supplier.model.Product;
 import com.nineleaps.supplier.model.Supplier;
 import com.nineleaps.supplier.repository.SupplierRepository;
-import com.ninelepas.supplier.service.talk.to.SupplierProductProxy;
+import com.nineleaps.supplier.service.talk.to.ProductProxy;
 
 @RestController
 public class SupplierController {
@@ -27,7 +27,7 @@ public class SupplierController {
 	//@Autowired
 	//private SupplierMailService mailService;
 	@Autowired
-	private SupplierProductProxy proxy;
+	private ProductProxy proxy;
 	
 	
 	
@@ -36,7 +36,7 @@ public class SupplierController {
 		repository.save(supplier);
 	}
 
-	@GetMapping(path = "/get/{id}")
+	@GetMapping(path ="/get/{id}")
 	public Supplier getById(@PathVariable int id) throws Exception {
 		Optional<Supplier> op = repository.findById(id);
 		if (op.isPresent()) {
