@@ -1,5 +1,7 @@
 package com.nineleaps.order.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +26,7 @@ public class OrderController {
 	private String topic = "nineleaps";
 
 	@PostMapping(value = "/create")
-	public void createOrder(@RequestBody Order order) throws Exception {
+	public void createOrder(@Valid @RequestBody Order order) throws Exception {
 		Product product = proxy.checkProductAvailability(order.getItem().getProductId());
 		if (product != null) {
 			template.send(topic, order);
