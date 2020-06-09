@@ -3,6 +3,8 @@ package com.nineleaps.product.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,7 +31,7 @@ public class ProductController {
 	Supplier supplierTopic = null;
 
 	@PostMapping(path = "/create")
-	public void createProduct(@RequestBody Product product) {
+	public void createProduct(@Valid @RequestBody Product product) {
 		product.setSupplierId(supplierTopic.getId());
 		repository.save(product);
 	}
