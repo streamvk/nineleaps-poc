@@ -7,10 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product {
+public class ProductPrimaryKey{
 
-	private ProductPrimaryKey pk;
-	private String name;
-	private Double price ;
-	private String description;
+	  private int id;
+	  private int supplierId; 
 }

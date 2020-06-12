@@ -13,6 +13,6 @@ import com.nineleaps.order.model.Product;
 public interface ProductProxy {
 	
 	@GetMapping("/product/product/get/{id}")
-	public Product checkProductAvailability( @PathVariable int id);
+	public Product checkProductAvailability( @PathVariable("id") int id);
 
 }

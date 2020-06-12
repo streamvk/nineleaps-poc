@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nineleaps.supplier.exception.SupplierNotFoundException;
 import com.nineleaps.supplier.model.Order;
 import com.nineleaps.supplier.model.Product;
 import com.nineleaps.supplier.model.Supplier;
@@ -31,6 +33,9 @@ public class SupplierController {
 	@Autowired
 	private ProductProxy proxy;
 	
+	  @Autowired KafkaTemplate<String, Object> template;
+	  private String topic = "nineleaps";
+	 
 	
 	
 	@PostMapping(path = "/create")
@@ -38,15 +43,26 @@ public class SupplierController {
 		repository.save(supplier);
 	}
 
-	@GetMapping(path ="/get/{id}")
-	public Supplier getById(@PathVariable int id) throws Exception {
+	//Only use when produce message through Kafka.
+	@GetMapping(path ="/get/v1/{id}")
+	public Supplier getByIdV1(@PathVariable int id) {
 		Optional<Supplier> op = repository.findById(id);
 		if (op.isPresent()) {
-			//template.send(topic,op.get());
+			template.send(topic,op.get());
 			return op.get();
 		}
 		else
-			throw new Exception("Supplier not found by id.");
+			throw new SupplierNotFoundException("Supplier not found by id.");
+	}
+	
+	@GetMapping(path ="/get/v2/{id}")
+	public Supplier getByIdV2(@PathVariable int id) {
+		Optional<Supplier> op = repository.findById(id);
+		if (op.isPresent()) {
+			return op.get();
+		}
+		else
+			throw new SupplierNotFoundException("Supplier not found by id.");
 	}
 
 	@PutMapping(path = "/update/{id}")
@@ -74,7 +90,7 @@ public class SupplierController {
 	public void getuser(Order order) throws Exception {
 		
 		Product product =proxy.checkSupplierAgainstProduct(order.getItem().getProductId());
-		if(product == null | product.getSupplierId() <=0 )
+		if(product == null | product.getPk().getId() <= 0 )
 			throw new Exception("Supplier is not found againts  product");
 		else
 			System.out.println("Send  mail to supplier.");

@@ -1,4 +1,6 @@
-package com.nineleaps.supplier.model;
+package com.nineleaps.order.exception;
+
+import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,10 +9,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product {
-
-	private ProductPrimaryKey pk;
-	private String name;
-	private Double price ;
+public class ExceptionResponse {
+	
+	private Date timestamp;
+	private String message;
 	private String description;
+
 }

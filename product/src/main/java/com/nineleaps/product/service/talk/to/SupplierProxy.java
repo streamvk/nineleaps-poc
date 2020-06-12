@@ -4,7 +4,6 @@ import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nineleaps.product.model.Supplier;
 
@@ -14,6 +13,11 @@ import com.nineleaps.product.model.Supplier;
 @RibbonClient(name="supplier")
 public interface SupplierProxy {
 
-	@GetMapping("/supplier/supplier/get/{id}")
+	@GetMapping("/supplier/supplier/get/v2/{id}")
 	public Supplier checkSupplierIsAlive( @PathVariable int id);
+	
+	/*
+	 * @GetMapping("/supplier/supplier/get/{id}") public Supplier
+	 * checkSupplierIsAlive( @PathVariable int i);
+	 */
 }

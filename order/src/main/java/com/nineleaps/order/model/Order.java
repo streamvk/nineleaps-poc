@@ -27,7 +27,7 @@ public class Order {
 	@PrimaryKey
 	@NotNull(message="Order id can not be null")
 	private Integer id;
-	@FutureOrPresent
+	//@FutureOrPresent
 	private Date date;
 	@Size(min=3, max=50)
 	@Column(value ="customer_name")

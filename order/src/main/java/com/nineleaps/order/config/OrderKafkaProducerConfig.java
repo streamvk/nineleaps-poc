@@ -13,7 +13,7 @@ import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
 @Configuration
-public class OrderKafkaConsumerConfig {
+public class OrderKafkaProducerConfig {
 	
 	
 	@Bean
