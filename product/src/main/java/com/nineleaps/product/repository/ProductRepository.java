@@ -10,5 +10,6 @@ import com.nineleaps.product.model.ProductPrimaryKey;
 public interface ProductRepository extends CassandraRepository<Product, ProductPrimaryKey>{
 	
 	Product findByPkId(int id);
+	void deleteProductByPkId(int id);
 
 }

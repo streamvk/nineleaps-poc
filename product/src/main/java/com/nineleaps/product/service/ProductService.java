@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nineleaps.product.controller.ProductController;
-import com.nineleaps.product.exception.FeignExceptionHandle;
 import com.nineleaps.product.exception.ProductNotFoundException;
 import com.nineleaps.product.model.Product;
 import com.nineleaps.product.repository.ProductRepository;
@@ -64,6 +63,10 @@ public class ProductService {
 		repository.save(product);
 	}
 
+	public void deleteProductById(int id) {
+		repository.deleteProductByPkId(id);
+	}
+	
 	public void deleteProduct(Product product) {
 		repository.delete(product);
 	}

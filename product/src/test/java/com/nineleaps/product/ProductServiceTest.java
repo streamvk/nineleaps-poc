@@ -76,7 +76,7 @@ public class ProductServiceTest {
 
 		mockMvc.perform(get("/get/{id}", 1)).andExpect(status().isFound())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-				.andExpect(jsonPath("$.pk.id", is(1))).andExpect(jsonPath("$.name", is("iphone")));
+				.andExpect(jsonPath("$.pk.id", is(1))).andExpect(jsonPath("$.name", is("iPhone")));
 		verifyNoMoreInteractions(productService);
 
 	}
@@ -91,7 +91,7 @@ public class ProductServiceTest {
 
 		mockMvc.perform(get("/all")).andExpect(status().isFound())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-				.andExpect(jsonPath("$.[0].pk.id", is(1))).andExpect(jsonPath("$.[0].name", is("iphone")));
+				.andExpect(jsonPath("$.[0].pk.id", is(1))).andExpect(jsonPath("$.[0].name", is("iPhone")));
 		verifyNoMoreInteractions(productService);
 
 	}

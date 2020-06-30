@@ -60,7 +60,7 @@ public class ProductServiceJunitTest {
 		when(productRepository.findAll()).thenReturn(prodList);
 		
 		List<Product> list= productService.findAllProduct();
-		assertEquals("iPhone", list.get(0).getName());
+		assertEquals(1, list.size());
 	}
 	
 	
@@ -71,6 +71,13 @@ public class ProductServiceJunitTest {
 		
 		productService.deleteProduct(product);
 		verify(productRepository,times(1)).delete(product);
+	}
+	
+	@Test
+	public void deleteProductById() {
+		
+		productService.deleteProductById(1);
+		verify(productRepository,times(1)).deleteProductByPkId(1);
 	}
 
 }
