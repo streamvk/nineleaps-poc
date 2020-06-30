@@ -12,7 +12,7 @@ import com.nineleaps.order.model.Product;
 @RibbonClient(name="product")
 public interface ProductProxy {
 	
-	@GetMapping("/product/product/get/{id}")
+	@GetMapping("/product/product/get/v2/{id}")
 	public Product checkProductAvailability( @PathVariable("id") int id);
 
 }

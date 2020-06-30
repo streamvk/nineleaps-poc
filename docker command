@@ -1,0 +1,4 @@
+--List of containers
+docker container ls -a
+-Remove Docker container
+docker container rm "Container ID"

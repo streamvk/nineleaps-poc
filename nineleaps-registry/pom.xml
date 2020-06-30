@@ -63,6 +63,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<finalName>nineleaps-registry</finalName>
 	</build>
 
 </project>

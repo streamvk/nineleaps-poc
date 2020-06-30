@@ -29,6 +29,6 @@ public class ProductPrimaryKey implements Serializable{
 	@PrimaryKeyColumn(name = "ID", ordinal = 0, type = PrimaryKeyType.PARTITIONED)
 	  private int id;
 	 
-	 @PrimaryKeyColumn(name = "SUPPLIER_ID", ordinal = 1, type = PrimaryKeyType.CLUSTERED)
+	 @PrimaryKeyColumn(name = "SUPPLIERID", ordinal = 1, type = PrimaryKeyType.CLUSTERED)
 	 private int supplierId; 
 }

@@ -67,6 +67,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<finalName>nineleaps-gateway</finalName>
 	</build>
 
 </project>

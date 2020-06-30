@@ -1,0 +1,63 @@
+version: "3"
+services:
+# Cassandra
+  cassandra:
+    image: cassandra:latest
+    ports:    
+      - "9042:9042"
+    network_mode: "host"
+    volumes:
+      - "/cassandra-init.sh:/cassandra-init.sh"
+    command: "sh /cassandra-init.sh"
+    
+# Registry 
+  nineleaps-registry:
+    image: nineleaps-registry:latest
+    ports:
+      - "8761:8761"
+      
+#API-Gateway      
+  nineleaps-gateway:
+    image: nineleaps-gateway:latest
+    ports:
+      - "8765:8765"
+    links:
+      - nineleaps-registry
+    environment:
+    - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://nineleaps-registry:8761/eureka
+    restart: on-failure
+    
+#Supplier Service      
+  supplier:
+    container_name: supplier-container
+    image: supplier:latest
+    ports: 
+      - "8010:8010"
+    network_mode: "host"
+    depends_on:
+        - cassandra
+        - nineleaps-gateway
+    restart: always
+
+#Product-Service      
+  product:
+    container_name: product-container
+    image: product:latest
+    ports: 
+      - "8020:8020"
+    network_mode: "host"
+    depends_on:
+        - cassandra
+        - nineleaps-gateway
+    restart: always
+      
+  order:
+    container_name: order-container
+    image: order:latest
+    ports: 
+      - "8030:8030"
+    network_mode: "host"
+    depends_on:
+        - cassandra
+        - nineleaps-gateway
+    restart: always

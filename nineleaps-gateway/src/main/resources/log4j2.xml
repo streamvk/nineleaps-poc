@@ -23,7 +23,7 @@
     </Appenders>
     <Loggers>
  
-        <Logger name="com.nineleaps.order" additivity="false">
+        <Logger name="com.nineleaps.zuul.gateway" additivity="false">
             <AppenderRef ref="appLog" />
             <AppenderRef ref="Console" />
         </Logger>

@@ -13,8 +13,8 @@ import com.nineleaps.product.model.Supplier;
 @RibbonClient(name="supplier")
 public interface SupplierProxy {
 
-	@GetMapping("/supplier/supplier/get/v2/{id}")
-	public Supplier checkSupplierIsAlive( @PathVariable int id);
+	@GetMapping("/supplier/supplier/get/v3/{id}")
+	public Supplier  checkSupplierIsAlive( @PathVariable int id);
 	
 	/*
 	 * @GetMapping("/supplier/supplier/get/{id}") public Supplier

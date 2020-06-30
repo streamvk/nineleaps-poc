@@ -1,5 +1,7 @@
 package com.nineleaps.order.model;
 
+import java.math.BigDecimal;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
@@ -18,11 +20,11 @@ import lombok.NoArgsConstructor;
 public class Item {
 	
 	@NotNull
-	@Column(value ="product_id")
+	@Column(value ="productid")
 	private Integer productId;
 	@Positive
 	private Integer quantity;
 	@PositiveOrZero
-	private Double price;
+	private BigDecimal price;
 
 }
