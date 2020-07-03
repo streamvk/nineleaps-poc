@@ -37,8 +37,9 @@ public class ProductController {
 
 	@PostMapping(path = "/create",consumes = { "application/json", "application/xml" })
 	public ResponseEntity<?> createProduct(@Valid @RequestBody Product product){
-		boolean isCreated =productService.saveProduct(product);
-		if(isCreated)
+		productService.saveProduct(product);
+		Product prod=productService.findProductByPkId(product.getPk().getId());
+		if(prod != null)
 		return new ResponseEntity<String>("Product Is Created.",HttpStatus.CREATED);
 		else
 			return new ResponseEntity<String>("Some Problem In Product.",HttpStatus.NOT_ACCEPTABLE);

@@ -58,8 +58,9 @@ public class ProductServiceTest {
 	@Test
 	public void createProductTest() throws Exception {
 
-		Product product = new Product(new ProductPrimaryKey(1, 1), "iPhone", 100000.00D, "iPhones are very constly.");
-		when(productService.isProductAvailable(1)).thenReturn(false);
+		//Product product = new Product(new ProductPrimaryKey(1, 1), "iPhone", 100000.00D, "iPhones are very constly.");
+		Product product = new Product(new ProductPrimaryKey(2, 2), "Book", 599.00D, "Creaking the coding interview");
+		when(productService.isProductAvailable(2)).thenReturn(false);
 		doNothing().when(productService).saveProduct(product);
 
 		mockMvc.perform(post("/create").contentType(MediaType.APPLICATION_JSON).content(asJsonString(product)))
@@ -91,14 +92,14 @@ public class ProductServiceTest {
 
 		mockMvc.perform(get("/all")).andExpect(status().isFound())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-				.andExpect(jsonPath("$.[0].pk.id", is(1))).andExpect(jsonPath("$.[0].name", is("iPhone")));
+				.andExpect(jsonPath("$.[1].pk.id", is(1))).andExpect(jsonPath("$.[1].name", is("iPhone")));
 		verifyNoMoreInteractions(productService);
 
 	}
 	
 	@Test
 	public void deleteProductByIdTest() throws Exception {
-		Product product = new Product(new ProductPrimaryKey(1, 1), "iphone", 100000.00D, "");
+		Product product = new Product(new ProductPrimaryKey(2, 2), "Book", 599.00D, "Creaking the coding interview");
 		when(productService.findProductByPkId(product.getPk().getId())).thenReturn(product);
 		doNothing().when(productService).deleteProduct(product);
 		mockMvc.perform(delete("/delete/{id}", product.getPk().getId())).andExpect(status().isOk());

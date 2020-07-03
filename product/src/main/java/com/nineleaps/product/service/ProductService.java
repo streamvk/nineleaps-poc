@@ -24,21 +24,16 @@ public class ProductService {
 	@Autowired
 	private SupplierProxy proxy;
 
-	public boolean saveProduct(Product product) {
-		boolean result=false;
+	public void saveProduct(Product product) {
 		try {
 			int supplierId = proxy.checkSupplierIsAlive(product.getPk().getSupplierId()).getId();
-			if (supplierId >0) {
+			if (supplierId >0)
 				repository.save(product);
-				result= true;
-			}
-			else {
-			result= false;
-			}
-		} catch (Exception ex) {
+			else 
+				throw new ProductNotFoundException("supplier not found");
+			} catch (Exception ex) {
 			logger.error("Supplier Services {}", ex.getMessage());
 		}
-		return result;
 	}
 
 	public Product findProductByPkId(int id) {

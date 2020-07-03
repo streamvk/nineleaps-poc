@@ -1,5 +1,6 @@
 version: "3"
 services:
+
 # Cassandra
   cassandra:
     container_name: cassandra_service
@@ -12,11 +13,12 @@ services:
         CASSANDRA_CLUSTER_NAME: "NineleapsCluster"
         CASSANDRA_ENDPOINT_SNITCH: "GossipingPropertyFileSnitch"
         CASSANDRA_DC: "DATA"
-        restart: alway
     volumes:
       - /var/lib/cassandra
     ports:    
       - "9042:9042"
+    restart: always
+
 
   zookeeper:
       image: wurstmeister/zookeeper
@@ -32,7 +34,7 @@ services:
       environment:
         KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
         KAFKA_LISTENERS: PLAINTEXT://:9092
-        KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://172.28.1.1:9092
+        KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://172.28.1.11:9092
         KAFKA_CREATE_TOPICS: "ORDER_SERVICE_TOPIC:1:1:compact"
       expose:
         - "9093"
@@ -41,17 +43,17 @@ services:
         - "9092:9092"
       networks:
         nineleapsnet:
-          ipv4_address: 172.28.1.1
+          ipv4_address: 172.28.1.11
     
 # Registry And Discovery
-  discovery:
-    container_name: discovery_service
-    image: discovery
+  registry:
+    container_name: registry_discovery_service
+    image: registry
     build:
-      context: discovery
-      dockerfile: Dockerfile
+      context: nineleaps-registry
+      dockerfile: /home/vivek/workspace/nineleaps/nineleaps-poc/nineleaps-registry/Dockerfile
     volumes:
-      - /data/discovery-service
+      - /data/registry_discovery_service
     ports:
       - "8761:8761"
     networks:
@@ -62,12 +64,12 @@ services:
     container_name: gateway_service
     image: gateway
     build:
-      context: gateway
-      dockerfile: Dockerfile
+      context: nineleaps-gateway
+      dockerfile: /home/vivek/workspace/nineleaps/nineleaps-poc/nineleaps-gateway/Dockerfile
     environment:
-      - JAVA_OPTS= -DEUREKA_SERVER=http://discovery:8761/eureka
+      - JAVA_OPTS= -DEUREKA_SERVER=http://registry:8761/eureka/ -DCASSANDRA_URI=cassandra -DCASSANDRA_PORT=9042
     links:
-      - discovery
+      - registry
     ports:
       - "8765:8765"
     restart: on-failure
@@ -80,16 +82,16 @@ services:
     image: supplier:latest
     build:
       context: supplier
-      dockerfile: Dockerfile
+      dockerfile: /home/vivek/workspace/nineleaps/nineleaps-poc/supplier/Dockerfile
     environment:
-      - JAVA_OPTS= -DEUREKA_SERVER=http://discovery:8761/eureka -DKAFKA_SERVER=172.16.2.10:9092
+      - JAVA_OPTS= -DEUREKA_SERVER=http://registry:8761/eureka -DKAFKA_SERVER=172.28.1.11:9092 -DCASSANDRA_URI=cassandra -DCASSANDRA_PORT=9042
     links:
-      - cassandra_service
-      - discovery
+      - cassandra
+      - registry
       - gateway
     networks:
       nineleapsnet:
-        ipv4_address: 172.28.1.2
+        ipv4_address: 172.28.1.12
     ports: 
       - "8010:8010"    
     restart: always
@@ -100,16 +102,16 @@ services:
     image: product:latest
     build:
       context: product
-      dockerfile: Dockerfile
+      dockerfile: /home/vivek/workspace/nineleaps/nineleaps-poc/product/Dockerfile
     environment:
-      - JAVA_OPTS= -DEUREKA_SERVER=http://discovery:8761/eureka -DKAFKA_SERVER=172.16.2.10:9092
+      - JAVA_OPTS= -DEUREKA_SERVER=http://registry:8761/eureka -DKAFKA_SERVER=172.28.1.11:9092 -DCASSANDRA_URI=cassandra -DCASSANDRA_PORT=9042
     links:
-      - cassandra_service
-      - discovery
+      - cassandra
+      - registry
       - gateway
     networks:
       nineleapsnet:
-        ipv4_address: 172.28.1.3
+        ipv4_address: 172.28.1.13
     ports: 
       - "8020:8020"
     restart: always
@@ -119,16 +121,16 @@ services:
     image: order:latest
     build:
       context: order
-      dockerfile: Dockerfile
+      dockerfile: /home/vivek/workspace/nineleaps/nineleaps-poc/order/Dockerfile
     environment:
-      - JAVA_OPTS= -DEUREKA_SERVER=http://discovery:8761/eureka -DKAFKA_SERVER=172.16.2.10:9092
+      - JAVA_OPTS= -DEUREKA_SERVER=http://registr:8761/eureka -DKAFKA_SERVER=172.28.1.11:9092 -DCASSANDRA_URI=cassandra -DCASSANDRA_PORT=9042
     links:
-      - cassandra_service
-      - discovery
+      - cassandra
+      - registry
       - gateway
     networks:
       nineleapsnet:
-        ipv4_address: 172.28.1.4
+        ipv4_address: 172.28.1.14
     ports: 
       - "8030:8030"
     restart: always

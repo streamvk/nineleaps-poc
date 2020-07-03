@@ -11,7 +11,7 @@
 	<groupId>com.nineleaps.registry</groupId>
 	<artifactId>nineleaps-registry</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>nineleaps-registry</name>
+	<name>discovery-and-registry</name>
 	<description>Nineleaps Eureka Registry</description>
 
 	<properties>
@@ -63,7 +63,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
-		<finalName>nineleaps-registry</finalName>
+		<finalName>registry</finalName>
 	</build>
 
 </project>
